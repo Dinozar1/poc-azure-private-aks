@@ -29,3 +29,24 @@ module "network" {
 
   tags = var.tags
 }
+
+module "management_vm" {
+  source = "./modules/management_vm"
+
+  vm_name        = var.management_vm_name
+  nic_name       = var.management_vm_nic_name
+  public_ip_name = var.management_vm_public_ip_name
+
+  location            = module.resource_group.location
+  resource_group_name = module.resource_group.name
+
+  subnet_id = module.network.management_subnet_id
+
+  # NSG is covering to allow only admin ip address
+  nsg_id = module.network.management_nsg_id
+
+  admin_username = var.management_vm_admin_username
+  ssh_public_key = var.management_vm_ssh_public_key
+
+  tags = var.tags
+}

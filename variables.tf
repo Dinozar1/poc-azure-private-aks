@@ -57,7 +57,7 @@ variable "aks_nsg_name" {
 }
 
 variable "admin_public_ip_cidr" {
-  description = "Your public IP in CIDR format, for example 1.2.3.4/32."
+  description = "Your public IP in CIDR format, e.g. 1.2.3.4/32."
   type        = string
 }
 
@@ -67,9 +67,34 @@ variable "management_allowed_ports" {
   default     = [22]
 }
 
+variable "management_vm_name" {
+  description = "Management VM name."
+  type        = string
+}
+
+variable "management_vm_nic_name" {
+  description = "Management VM NIC name."
+  type        = string
+}
+
+variable "management_vm_public_ip_name" {
+  description = "Management VM public IP resource name."
+  type        = string
+}
+
+variable "management_vm_admin_username" {
+  description = "Admin username for management VM."
+  type        = string
+  default     = "azureuser"
+}
+
+variable "management_vm_ssh_public_key" {
+  description = "SSH public key contents for management VM."
+  type        = string
+}
+
 variable "tags" {
   description = "Common tags."
   type        = map(string)
   default     = {}
 }
-

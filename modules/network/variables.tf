@@ -1,16 +1,10 @@
-
-variable "subscription_id" {
-  type = string
+variable "resource_group_name" {
+  description = "Resource group name."
+  type        = string
 }
 
 variable "location" {
   description = "Azure region."
-  type        = string
-  default     = "polandcentral"
-}
-
-variable "resource_group_name" {
-  description = "Resource group name."
   type        = string
 }
 
@@ -27,7 +21,6 @@ variable "vnet_address_space" {
 variable "management_subnet_name" {
   description = "Management subnet name."
   type        = string
-  default     = "snet-management"
 }
 
 variable "management_subnet_address_prefixes" {
@@ -38,7 +31,6 @@ variable "management_subnet_address_prefixes" {
 variable "aks_subnet_name" {
   description = "AKS subnet name."
   type        = string
-  default     = "snet-aks"
 }
 
 variable "aks_subnet_address_prefixes" {
@@ -57,19 +49,18 @@ variable "aks_nsg_name" {
 }
 
 variable "admin_public_ip_cidr" {
-  description = "Your public IP in CIDR format, for example 1.2.3.4/32."
+  description = "Admin public IP in CIDR format."
   type        = string
 }
 
 variable "management_allowed_ports" {
-  description = "Allowed inbound ports to management subnet from admin_public_ip_cidr."
+  description = "Allowed inbound ports to management subnet."
   type        = list(number)
   default     = [22]
 }
 
 variable "tags" {
-  description = "Common tags."
+  description = "Tags."
   type        = map(string)
   default     = {}
 }
-

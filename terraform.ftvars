@@ -1,1 +1,27 @@
 subscription_id = "3bde0dd4-16e0-439c-87c9-a8ca19d80ca6"
+
+location = "polandcentral"
+
+resource_group_name = "rg-aks-poc-polandcentral-001"
+
+vnet_name          = "vnet-aks-poc-polandcentral-001"
+vnet_address_space = ["10.10.0.0/16"]
+
+management_subnet_name             = "snet-management"
+management_subnet_address_prefixes = ["10.10.1.0/24"]
+
+aks_subnet_name             = "snet-aks"
+aks_subnet_address_prefixes = ["10.10.2.0/24"]
+
+management_nsg_name = "nsg-snet-management"
+aks_nsg_name        = "nsg-snet-aks"
+
+admin_public_ip_cidr = "X.X.X.X/32"
+
+management_allowed_ports = [22]
+
+tags = {
+  project     = "aks-poc"
+  environment = "dev"
+  managed_by  = "terraform"
+}

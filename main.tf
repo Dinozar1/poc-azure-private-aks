@@ -32,17 +32,17 @@ module "network" {
 
 resource "tls_private_key" "vm_ssh_key" {
   algorithm = "RSA"
-  rsa_bits = 4096
+  rsa_bits  = 4096
 }
 
 resource "local_sensitive_file" "vm_private_key" {
-  content = tls_private_key.vm_ssh_key.private_key_pem
-  filename = "${path.root}/managment-vm-key.pem"
+  content         = tls_private_key.vm_ssh_key.private_key_pem
+  filename        = "${path.root}/managment-vm-key.pem"
   file_permission = "0600"
 }
 
 resource "local_file" "vm_public_key" {
-  content = tls_private_key.vm_ssh_key.public_key_openssh
+  content  = tls_private_key.vm_ssh_key.public_key_openssh
   filename = "${path.root}/managment-vm-key.pem.pub"
 }
 
@@ -70,6 +70,8 @@ module "management_vm" {
 
 data "azurerm_client_config" "current" {}
 
+
+
 module "aks" {
   source = "./modules/aks"
 
@@ -81,10 +83,22 @@ module "aks" {
   aks_admin_principal_id = data.azurerm_client_config.current.object_id
   aks_admin_tenant_id    = data.azurerm_client_config.current.tenant_id
 
+
   aks_name               = var.aks_name
   aks_dns_prefix         = var.aks_dns_prefix
   aks_default_pool_name  = var.aks_default_pool_name
   aks_default_node_count = var.aks_default_node_count
   aks_default_vm_size    = var.aks_default_vm_size
   aks_rotation_name      = var.aks_rotation_name
+}
+
+resource "azurerm_role_assignment" "aks_rbac_vm_admin" {
+  scope                = module.aks.cluster_id
+  role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
+  principal_id         = module.management_vm.vm_principal_id
+
+  depends_on = [
+    module.aks,
+    module.management_vm
+  ]
 }

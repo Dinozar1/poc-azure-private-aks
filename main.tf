@@ -30,6 +30,22 @@ module "network" {
   tags = var.tags
 }
 
+resource "tls_private_key" "vm_ssh_key" {
+  algorithm = "RSA"
+  rsa_bits = 4096
+}
+
+resource "local_sensitive_file" "vm_private_key" {
+  content = tls_private_key.vm_ssh_key.private_key_pem
+  filename = "${path.root}/managment-vm-key.pem"
+  file_permission = "0600"
+}
+
+resource "local_file" "vm_public_key" {
+  content = tls_private_key.vm_ssh_key.public_key_openssh
+  filename = "${path.root}/managment-vm-key.pem.pub"
+}
+
 module "management_vm" {
   source = "./modules/management_vm"
 
@@ -46,7 +62,7 @@ module "management_vm" {
   nsg_id = module.network.management_nsg_id
 
   admin_username = var.management_vm_admin_username
-  ssh_public_key = var.management_vm_ssh_public_key
+  ssh_public_key = tls_private_key.vm_ssh_key.public_key_openssh
 
   tags = var.tags
 }

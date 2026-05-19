@@ -57,5 +57,3 @@ resource "azurerm_linux_virtual_machine" "management_vm" {
 
   tags = var.tags
 }
-
-data "azurerm_client_config" "current" {}

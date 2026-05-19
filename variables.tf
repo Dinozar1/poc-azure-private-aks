@@ -88,10 +88,6 @@ variable "management_vm_admin_username" {
   default     = "azureuser"
 }
 
-variable "management_vm_ssh_public_key" {
-  description = "SSH public key contents for management VM."
-  type        = string
-}
 
 variable "tags" {
   description = "Common tags."

@@ -20,3 +20,11 @@ runcmd:
 
   # helm
   - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+  - az aks install-cli
+
+  - su - azureuser -c "az login --identity"
+
+  - su - azureuser -c "az aks get-credentials --resource-group ${resource_group_name} --name ${aks_cluster_name}"
+
+  - su - azureuser -c "kubelogin convert-kubeconfig -l msi"

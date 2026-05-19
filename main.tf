@@ -46,27 +46,6 @@ resource "local_file" "vm_public_key" {
   filename = "${path.root}/managment-vm-key.pem.pub"
 }
 
-module "management_vm" {
-  source = "./modules/management_vm"
-
-  vm_name        = var.management_vm_name
-  nic_name       = var.management_vm_nic_name
-  public_ip_name = var.management_vm_public_ip_name
-
-  location            = module.resource_group.location
-  resource_group_name = module.resource_group.name
-
-  subnet_id = module.network.management_subnet_id
-
-  # NSG is covering to allow only admin ip address
-  nsg_id = module.network.management_nsg_id
-
-  admin_username = var.management_vm_admin_username
-  ssh_public_key = tls_private_key.vm_ssh_key.public_key_openssh
-
-  tags = var.tags
-}
-
 
 data "azurerm_client_config" "current" {}
 
@@ -90,6 +69,29 @@ module "aks" {
   aks_default_node_count = var.aks_default_node_count
   aks_default_vm_size    = var.aks_default_vm_size
   aks_rotation_name      = var.aks_rotation_name
+}
+
+module "management_vm" {
+  source = "./modules/management_vm"
+
+  vm_name        = var.management_vm_name
+  nic_name       = var.management_vm_nic_name
+  public_ip_name = var.management_vm_public_ip_name
+
+  location            = module.resource_group.location
+  resource_group_name = module.resource_group.name
+
+  subnet_id = module.network.management_subnet_id
+
+  # NSG is covering to allow only admin ip address
+  nsg_id = module.network.management_nsg_id
+
+  admin_username = var.management_vm_admin_username
+  ssh_public_key = tls_private_key.vm_ssh_key.public_key_openssh
+
+  cluster_name = module.aks.cluster_name
+
+  tags = var.tags
 }
 
 resource "azurerm_role_assignment" "aks_rbac_vm_admin" {

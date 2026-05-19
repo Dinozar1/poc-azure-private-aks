@@ -57,7 +57,10 @@ resource "azurerm_linux_virtual_machine" "management_vm" {
     version   = var.source_image_version
   }
 
-  custom_data = base64encode(file("${path.module}/cloud-init.yaml"))
+  custom_data = base64encode(templatefile("${path.module}/cloud-init.yaml", {
+    resource_group_name = var.resource_group_name
+    aks_cluster_name = var.cluster_name
+  }))
 
   tags = var.tags
 }

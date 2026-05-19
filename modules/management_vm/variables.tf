@@ -84,3 +84,8 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "cluster_name" {
+  description = "name of aks cluster"
+  type        = string
+}

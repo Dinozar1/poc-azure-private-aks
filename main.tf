@@ -50,3 +50,25 @@ module "management_vm" {
 
   tags = var.tags
 }
+
+
+data "azurerm_client_config" "current" {}
+
+module "aks" {
+  source = "./modules/aks"
+
+  rg_name  = module.resource_group.name
+  location = module.resource_group.location
+
+  aks_subnet_id = module.network.aks_subnet_id
+
+  aks_admin_principal_id = data.azurerm_client_config.current.object_id
+  aks_admin_tenant_id    = data.azurerm_client_config.current.tenant_id
+
+  aks_name               = var.aks_name
+  aks_dns_prefix         = var.aks_dns_prefix
+  aks_default_pool_name  = var.aks_default_pool_name
+  aks_default_node_count = var.aks_default_node_count
+  aks_default_vm_size    = var.aks_default_vm_size
+  aks_rotation_name      = var.aks_rotation_name
+}

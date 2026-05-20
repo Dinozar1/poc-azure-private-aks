@@ -38,6 +38,12 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   network_profile {
     network_plugin = "azure"
   }
+
+  lifecycle {
+    ignore_changes = [ 
+      default_node_pool[0].upgrade_settings
+     ]
+  }
 }
 
 resource "azurerm_role_assignment" "aks_rbac_admin" {

@@ -129,3 +129,28 @@ variable "aks_rotation_name" {
   default     = "tempsystem"
 }
 
+variable "sa_name" {
+  description = "Name of the storage account used for Azure Files. Must be globally unique, use only lowercase letters and numbers, and be between 3 and 24 characters."
+  type        = string
+  default     = "pocstshared001aks"
+}
+
+variable "share_name" {
+  description = "Name of the Azure File Share created inside the storage account."
+  type        = string
+  default     = "nfs-share"
+}
+
+variable "endpoint_name" {
+  description = "Name of the private endpoint used to provide private network access to the storage account file service."
+  type        = string
+  default     = "poc-storage-pe-001"
+}
+
+variable "private_service_connection_name" {
+  description = "Name of the private service connection between the private endpoint and the storage account."
+  type        = string
+  default     = "poc-storage-psc-001"
+}
+
+

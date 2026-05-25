@@ -99,8 +99,21 @@ resource "azurerm_role_assignment" "aks_rbac_vm_admin" {
   role_definition_name = "Azure Kubernetes Service RBAC Cluster Admin"
   principal_id         = module.management_vm.vm_principal_id
 
-  depends_on = [
-    module.aks,
-    module.management_vm
-  ]
+}
+
+
+module "storage_share" {
+  source = "./modules/storage"
+
+  sa_name  = var.sa_name
+  rg_name  = var.resource_group_name
+  location = var.location
+
+  share_name = var.share_name
+
+  vnet_id   = module.network.vnet_id
+  subnet_id = module.network.aks_subnet_id
+
+  endpoint_name                   = var.endpoint_name
+  private_service_connection_name = var.private_service_connection_name
 }

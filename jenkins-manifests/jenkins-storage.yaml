@@ -8,6 +8,7 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
+  storageClassName: jenkins-azurefile-static
   csi:
     driver: file.csi.azure.com
     volumeHandle: jenkins-dysk-001
@@ -32,6 +33,6 @@ spec:
     requests:
       storage: 50Gi
     volumeName: jenkins-pv-azurefiles
-    storageClassName: ""
+    storageClassName: jenkins-azurefile-static
 
 

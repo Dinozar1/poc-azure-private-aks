@@ -117,3 +117,19 @@ module "storage_share" {
   endpoint_name                   = var.endpoint_name
   private_service_connection_name = var.private_service_connection_name
 }
+
+
+module "key_vault" {
+  source = "./modules/key_vault"
+
+  kv_name  = var.kv_name
+  location = var.location
+  rg_name  = module.resource_group.name
+
+  tenant_id              = data.azurerm_client_config.current.tenant_id
+  admin_object_id        = data.azurerm_client_config.current.object_id
+  aks_identity_object_id = module.aks.key_vault_identity_object_id
+
+  storage_account_key = module.storage_share.storage_account_key
+  storage_key_name    = module.storage_share.storage_account_name
+}

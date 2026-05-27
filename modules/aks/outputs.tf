@@ -13,3 +13,7 @@ output "node_reasource_group" {
 output "kube_config_raw" {
   value = azurerm_kubernetes_cluster.aks_cluster.kube_config_raw
 }
+
+output "key_vault_identity_object_id" {
+  value = azurerm_kubernetes_cluster.aks_cluster.key_vault_secrets_provider[0].secret_identity[0].object_id
+}

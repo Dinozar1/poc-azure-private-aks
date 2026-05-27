@@ -44,6 +44,10 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
       default_node_pool[0].upgrade_settings
     ]
   }
+
+  key_vault_secrets_provider {
+    secret_rotation_enabled = true
+  }
 }
 
 resource "azurerm_role_assignment" "aks_rbac_admin" {

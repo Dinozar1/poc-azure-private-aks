@@ -153,4 +153,8 @@ variable "private_service_connection_name" {
   default     = "poc-storage-psc-001"
 }
 
+variable "kv_name" {
+  type    = string
+  default = "pockv001szymon"
+}
 

@@ -3,18 +3,20 @@ resource "azurerm_storage_account" "storage_account" {
   resource_group_name = var.rg_name
   location            = var.location
 
-  account_tier             = "Standard"
+  account_tier             = "Premium"
   account_replication_type = "LRS"
-  account_kind             = "StorageV2"
+  account_kind             = "FileStorage"
 
   public_network_access_enabled = false
+
+  https_traffic_only_enabled = false
 }
 
 resource "azurerm_storage_share" "storage_share" {
   name               = var.share_name
   storage_account_id = azurerm_storage_account.storage_account.id
-  quota              = 50
-
+  quota              = 100
+  enabled_protocol = "NFS"
 }
 
 resource "azurerm_private_dns_zone" "privite_dns" {

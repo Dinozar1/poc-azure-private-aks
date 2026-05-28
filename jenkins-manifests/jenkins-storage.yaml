@@ -4,20 +4,18 @@ metadata:
   name: jenkins-pv-azurefiles
 spec:
   capacity:
-    storage: 50Gi
+    storage: 100Gi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual
+  storageClassName: ""
   csi:
     driver: file.csi.azure.com
     volumeHandle: jenkins-dysk-001
     volumeAttributes:
       resourceGroup: rg-aks-poc-pol-001
       shareName: nfs-share
-    nodeStageSecretRef:
-      name: azure-storage-secret
-      namespace: jenkins
+      protocol: nfs
 
 ---
 
@@ -31,8 +29,8 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: 50Gi
+      storage: 100Gi
     volumeName: jenkins-pv-azurefiles
-    storageClassName: manual
+    storageClassName: ""
 
 

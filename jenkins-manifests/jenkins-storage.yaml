@@ -30,7 +30,7 @@ spec:
   resources:
     requests:
       storage: 100Gi
-    volumeName: jenkins-pv-azurefiles
-    storageClassName: ""
+  volumeName: jenkins-pv-azurefiles
+  storageClassName: ""
 
 
